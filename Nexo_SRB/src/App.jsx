@@ -1,122 +1,67 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import React, { useState } from 'react';
+import Header from './Header';
+import HeroSection from './HeroSection';
+import CategoriesSection from './CategoriesSection';
+import RestaurantsSection from './RestaurantsSection';
+import CombosSection from './CombosSection';
+import Footer from './Footer';
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [activeNav, setActiveNav] = useState('inicio');
+  const [activeCategory, setActiveCategory] = useState('todos');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [toastMessage, setToastMessage] = useState('');
+
+  const handleNavClick = (navId) => {
+    setActiveNav(navId);
+  };
+
+  const handleAddToCart = (combo) => {
+    setToastMessage(`¡${combo.name} agregado al carrito!`);
+    setTimeout(() => {
+      setToastMessage('');
+    }, 3000);
+  };
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <div className="nexo-app">
+      {/* BARRA SUPERIOR / HEADER */}
+      <Header activeItem={activeNav} onItemClick={handleNavClick} />
 
-      <div className="ticks"></div>
+      {/* CONTENIDO PRINCIPAL */}
+      <main>
+        {/* HERO SECTION */}
+        <HeroSection
+          searchValue={searchQuery}
+          onSearchChange={setSearchQuery}
+          onSearchSubmit={(val) => console.log('Buscando:', val)}
+        />
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+        {/* CATEGORÍAS */}
+        <CategoriesSection
+          activeCategory={activeCategory}
+          onSelectCategory={setActiveCategory}
+        />
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+        {/* RESTAURANTES DESTACADOS */}
+        <RestaurantsSection />
+
+        {/* COMBOS POPULARES */}
+        <CombosSection onAddToCart={handleAddToCart} />
+      </main>
+
+      {/* FOOTER */}
+      <Footer />
+
+      {/* TOAST DE CONFIRMACIÓN */}
+      {toastMessage && (
+        <div className="cart-toast" role="alert">
+          🛒 {toastMessage}
+        </div>
+      )}
+    </div>
+  );
 }
 
-export default App
+export default App;

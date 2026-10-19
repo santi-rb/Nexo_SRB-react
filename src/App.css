@@ -1,0 +1,573 @@
+/* ===================================================
+   NEXO APP - ESTILOS PRINCIPALES (BASADOS EN Inicio.css)
+=================================================== */
+
+.nexo-app {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* =========================
+   BARRA SUPERIOR (HEADER)
+========================= */
+
+.barra-superior {
+  width: 100%;
+  height: 75px;
+  background: #171717;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 50px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+/* LOGO */
+.logo {
+  color: #e50914;
+  font-size: 30px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+/* MENÚ */
+.menu {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.menu a {
+  color: #cccccc;
+  text-decoration: none;
+  padding: 12px 18px;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.menu a:hover {
+  background: #e50914;
+  color: white;
+}
+
+.menu .activo {
+  background: #e50914;
+  color: white;
+}
+
+/* =========================
+   HERO SECTION
+========================= */
+
+.hero {
+  min-height: 300px;
+  padding: 55px 9%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  overflow: hidden;
+  background: linear-gradient(90deg, #f8f9fb 45%, #ffffff 100%);
+}
+
+.hero-content {
+  width: 50%;
+}
+
+.hero h1 {
+  font-size: 46px;
+  margin-bottom: 15px;
+  color: #151923;
+  line-height: 1.2;
+}
+
+.hero p {
+  color: #555555;
+  font-size: 18px;
+  margin-bottom: 28px;
+  line-height: 1.4;
+}
+
+.search-box {
+  width: 560px;
+  max-width: 100%;
+  height: 58px;
+  background: white;
+  border: 1px solid #e1e1e1;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 0 22px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.04);
+}
+
+.search-box span {
+  font-size: 22px;
+}
+
+.search-box input {
+  width: 100%;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  background: transparent;
+}
+
+.hero-food {
+  width: 43%;
+  height: 300px;
+  overflow: hidden;
+  border-radius: 50% 0 0 50%;
+}
+
+.hero-food img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* =========================
+   SECCIONES PRINCIPALES
+========================= */
+
+main {
+  width: 100%;
+  flex: 1;
+}
+
+.categories-section,
+.restaurants-section,
+.combos-section {
+  width: 82%;
+  margin: auto;
+}
+
+h2 {
+  font-size: 22px;
+  margin-bottom: 20px;
+  color: #151923;
+}
+
+/* =========================
+   CATEGORÍAS
+========================= */
+
+.categories-section {
+  padding-top: 25px;
+}
+
+.categories {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+}
+
+.category {
+  border: 1px solid #e5e5e5;
+  background: white;
+  border-radius: 30px;
+  padding: 13px 23px;
+  font-size: 15px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: 0.2s;
+  color: #333333;
+}
+
+.category:hover {
+  border-color: #e31b16;
+}
+
+.category.active {
+  background: #e31b16;
+  color: white;
+  border-color: #e31b16;
+}
+
+.more {
+  border: none;
+  background: transparent;
+  font-size: 15px;
+  cursor: pointer;
+  color: #555555;
+  white-space: nowrap;
+}
+
+/* =========================
+   RESTAURANTES
+========================= */
+
+.restaurants-section {
+  padding-top: 35px;
+}
+
+.restaurants {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 45px;
+}
+
+.restaurant-card {
+  background: white;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  min-height: 140px;
+  overflow: hidden;
+  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.06);
+  transition: 0.3s;
+}
+
+.restaurant-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.restaurant-logo {
+  width: 120px;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  flex-shrink: 0;
+}
+
+.restaurant-logo img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.frisby-logo {
+  background: #f58220;
+}
+
+.kfc-logo {
+  background: #d71920;
+}
+
+.burger-logo {
+  background: #f3e2c3;
+}
+
+.restaurant-info {
+  padding: 20px;
+  flex: 1;
+}
+
+.restaurant-info h3 {
+  font-size: 20px;
+  margin-bottom: 8px;
+  color: #151923;
+}
+
+.restaurant-info p {
+  color: #777777;
+  font-size: 14px;
+  margin-bottom: 13px;
+}
+
+.rating {
+  font-size: 13px;
+  color: #555555;
+}
+
+.arrow {
+  font-size: 35px;
+  color: #555555;
+  margin-right: 20px;
+}
+
+/* =========================
+   COMBOS
+========================= */
+
+.combos-section {
+  padding-top: 40px;
+  padding-bottom: 60px;
+}
+
+.section-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.section-title h2 {
+  margin-bottom: 0;
+}
+
+.section-title a {
+  color: #e31b16;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.combo-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 28px;
+}
+
+.combo-card {
+  background: white;
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+  transition: 0.3s;
+  display: flex;
+  flex-direction: column;
+}
+
+.combo-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+.combo-card h3 {
+  font-size: 17px;
+  margin-bottom: 12px;
+  color: #151923;
+}
+
+.combo-image {
+  width: 100%;
+  height: 170px;
+  overflow: hidden;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+.combo-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.combo-card p {
+  color: #555555;
+  font-size: 14px;
+  margin-bottom: 18px;
+  flex: 1;
+}
+
+.combo-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.combo-bottom strong {
+  color: #e31b16;
+  font-size: 20px;
+}
+
+.combo-bottom button {
+  width: 38px;
+  height: 38px;
+  border: none;
+  border-radius: 50%;
+  background: #e31b16;
+  color: white;
+  font-size: 25px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition: background 0.2s;
+}
+
+.combo-bottom button:hover {
+  background: #b91511;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer {
+  width: 100%;
+  background: #171717;
+  color: #cccccc;
+  margin-top: auto;
+  padding: 50px 0 25px 0;
+}
+
+.footer-content {
+  width: 82%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 40px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid #2d2d2d;
+}
+
+.footer-brand .footer-logo {
+  color: #e50914;
+  font-size: 28px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+
+.footer-brand p {
+  color: #999999;
+  font-size: 14px;
+  line-height: 1.6;
+  max-width: 340px;
+}
+
+.footer-column h3 {
+  color: #ffffff;
+  font-size: 16px;
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+.footer-column ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-column ul li {
+  margin-bottom: 10px;
+}
+
+.footer-column ul li a {
+  color: #aaaaaa;
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.2s;
+}
+
+.footer-column ul li a:hover {
+  color: #e50914;
+}
+
+.footer-column ul li span {
+  color: #888888;
+  font-size: 14px;
+}
+
+.footer-bottom {
+  width: 82%;
+  margin: 25px auto 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  color: #777777;
+}
+
+/* =========================
+   ALERT / TOAST (OPCIONAL)
+========================= */
+
+.cart-toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: #171717;
+  color: white;
+  border-left: 4px solid #e50914;
+  padding: 14px 22px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  font-size: 14px;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* =========================
+   RESPONSIVE DESIGN
+========================= */
+
+@media (max-width: 1000px) {
+  .restaurants {
+    grid-template-columns: 1fr;
+  }
+
+  .combo-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .footer-content {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .barra-superior {
+    padding: 0 20px;
+  }
+
+  .menu {
+    display: none;
+  }
+
+  .hero {
+    padding: 40px 20px;
+    display: block;
+  }
+
+  .hero-content {
+    width: 100%;
+  }
+
+  .hero h1 {
+    font-size: 34px;
+  }
+
+  .search-box {
+    width: 100%;
+  }
+
+  .hero-food {
+    width: 100%;
+    margin-top: 30px;
+    border-radius: 20px;
+  }
+
+  .categories-section,
+  .restaurants-section,
+  .combos-section {
+    width: 92%;
+  }
+
+  .combo-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-content {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+}
