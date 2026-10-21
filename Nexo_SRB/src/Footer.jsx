@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -7,7 +8,9 @@ export default function Footer() {
     <footer className="footer">
       <div className="footer-content">
         <div className="footer-brand">
-          <div className="footer-logo">NEXO</div>
+          <Link to="/" className="footer-logo" style={{ textDecoration: 'none' }}>
+            NEXO
+          </Link>
           <p>
             Tu plataforma de comida rápida favorita para estudiantes.
             Encuentra los mejores restaurantes y combos al mejor precio.
@@ -17,20 +20,19 @@ export default function Footer() {
         <div className="footer-column">
           <h3>Navegación</h3>
           <ul>
-            <li><a href="#inicio">Inicio</a></li>
-            <li><a href="#comida">Comidas</a></li>
-            <li><a href="#restaurantes">Restaurantes</a></li>
-            <li><a href="#carrito">Carrito</a></li>
+            <li><Link to="/">Inicio</Link></li>
+            <li><Link to="/comida">Comidas</Link></li>
+            <li><Link to="/restaurantes">Restaurantes</Link></li>
+            <li><Link to="/carrito">Carrito</Link></li>
           </ul>
         </div>
 
         <div className="footer-column">
           <h3>Cuenta</h3>
           <ul>
-            <li><a href="#perfil">Mi Perfil</a></li>
-            <li><a href="#pedidos">Mis Pedidos</a></li>
-            <li><a href="#configuracion">Configuración</a></li>
-            <li><a href="#ayuda">Centro de Ayuda</a></li>
+            <li><Link to="/perfil">Mi Perfil</Link></li>
+            <li><Link to="/mis-pedidos">Mis Pedidos</Link></li>
+            <li><Link to="/perfil">Configuración</Link></li>
           </ul>
         </div>
 

@@ -1,38 +1,39 @@
 import React from 'react';
+import { NavLink, Link } from 'react-router-dom';
+import { useCart } from './context/CartContext';
 
-export default function Header({ activeItem = 'inicio', onItemClick }) {
-  const navItems = [
-    { id: 'inicio', label: '🏠 Inicio', href: '#inicio' },
-    { id: 'comida', label: '🍔 Comida', href: '#comida' },
-    { id: 'restaurantes', label: '🍽 Restaurantes', href: '#restaurantes' },
-    { id: 'carrito', label: '🛒 Carrito', href: '#carrito' },
-    { id: 'perfil', label: '👤 Perfil', href: '#perfil' },
-    { id: 'pedidos', label: '🍴 Mis Pedidos', href: '#pedidos' },
+export default function Header({ activeItem, onItemClick }) {
+  const { totalItems } = useCart();
+
+  const navLinks = [
+    { to: '/', label: '🏠 Inicio', id: 'inicio', end: true },
+    { to: '/comida', label: '🍔 Comida', id: 'comida' },
+    { to: '/restaurantes', label: '🍽 Restaurantes', id: 'restaurantes' },
+    { to: '/carrito', label: '🛒 Carrito', id: 'carrito', badge: totalItems },
+    { to: '/perfil', label: '👤 Perfil', id: 'perfil' },
+    { to: '/mis-pedidos', label: '🍴 Mis Pedidos', id: 'pedidos' },
   ];
-
-  const handleClick = (e, id) => {
-    if (onItemClick) {
-      e.preventDefault();
-      onItemClick(id);
-    }
-  };
 
   return (
     <header className="barra-superior">
-      <div className="logo">
+      <Link to="/" className="logo">
         NEXO
-      </div>
+      </Link>
 
       <nav className="menu">
-        {navItems.map((item) => (
-          <a
-            key={item.id}
-            href={item.href}
-            className={activeItem === item.id ? 'activo' : ''}
-            onClick={(e) => handleClick(e, item.id)}
+        {navLinks.map((item) => (
+          <NavLink
+            key={item.to}
+            to={item.to}
+            end={item.end}
+            className={({ isActive }) =>
+              isActive || (activeItem && activeItem === item.id) ? 'activo' : ''
+            }
+            onClick={() => onItemClick && onItemClick(item.id)}
           >
             {item.label}
-          </a>
+            {item.badge > 0 && <span className="cart-badge">{item.badge}</span>}
+          </NavLink>
         ))}
       </nav>
     </header>

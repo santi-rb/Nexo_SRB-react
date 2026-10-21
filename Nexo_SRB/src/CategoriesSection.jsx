@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const CATEGORIES = [
   { id: 'todos', label: 'Todos', icon: '▦' },
@@ -12,12 +13,23 @@ const CATEGORIES = [
 
 export default function CategoriesSection({ activeCategory = 'todos', onSelectCategory }) {
   const [selected, setSelected] = useState(activeCategory);
+  const navigate = useNavigate();
 
-  const handleSelect = (id) => {
-    setSelected(id);
+  const handleSelect = (catId) => {
+    setSelected(catId);
     if (onSelectCategory) {
-      onSelectCategory(id);
+      onSelectCategory(catId);
+    } else {
+      if (catId === 'todos') {
+        navigate('/comida');
+      } else {
+        navigate(`/comida?cat=${catId}`);
+      }
     }
+  };
+
+  const handleMore = () => {
+    navigate('/comida');
   };
 
   return (
@@ -36,7 +48,7 @@ export default function CategoriesSection({ activeCategory = 'todos', onSelectCa
           </button>
         ))}
 
-        <button type="button" className="more">
+        <button type="button" className="more" onClick={handleMore}>
           Más →
         </button>
       </div>
