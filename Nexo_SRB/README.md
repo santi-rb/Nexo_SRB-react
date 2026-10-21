@@ -1,16 +1,199 @@
-# React + Vite
+# 🍔 NEXO SRB - Plataforma de Comidas Rápidas
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> **Proyecto:** Nexo SRB - Sistema Web de Pedidos de Comida Rápida para Estudiantes  
+> **Autor:** Santiago Rangel Bonilla  
+> **Grado:** 11°A  
+> **Tecnologías:** React 19, Vite, React Router DOM v7, Context API, CSS3  
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 📌 1. Descripción del Proyecto
 
-## React Compiler
+**NEXO SRB** es una aplicación web interactiva desarrollada con **React** y **Vite**, orientada a facilitar la compra y entrega de comidas rápidas a estudiantes a través de convenios con restaurantes y colegios.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+El proyecto migró de una estructura estática en HTML/CSS a una **Single Page Application (SPA)** modular, reactiva y escalable utilizando **React Router DOM** para la navegación y **Context API** para la gestión global del carrito y pedidos.
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🏛️ 2. Arquitectura del Proyecto
+
+El sistema está estructurado bajo una **arquitectura por componentes desacoplados** dividida en cuatro capas principales:
+
+```mermaid
+flowchart TD
+    subgraph Browser ["Navegador Web"]
+        URL["Rutas de URL (/comida, /restaurantes, etc.)"]
+    end
+
+    subgraph RouterLayer ["Capa de Enrutamiento (React Router DOM)"]
+        Router["BrowserRouter / Routes / Route"]
+    end
+
+    subgraph StateLayer ["Capa de Estado Global (Context API)"]
+        CartCtx["CartContext & CartProvider\n(Items, Cantidades, Subtotal, Órdenes, Toasts)"]
+    end
+
+    subgraph PagesLayer ["Capa de Vistas y Páginas (src/pages)"]
+        P1["InicioPage (/)"]
+        P2["ComidasPage (/comida)"]
+        P3["RestaurantesPage (/restaurantes)"]
+        P4["RestauranteDetailPage (/restaurante/:id)"]
+        P5["CarritoPage (/carrito)"]
+        P6["PerfilPage (/perfil)"]
+        P7["MisPedidosPage (/mis-pedidos)"]
+    end
+
+    subgraph ComponentsLayer ["Capa de Componentes Reutilizables (src/components)"]
+        C1["Header (NavBar + Badge)"]
+        C2["HeroSection (Buscador + Imagen)"]
+        C3["CategoriesSection (Filtro categorías)"]
+        C4["RestaurantsSection (Tarjetas destacados)"]
+        C5["CombosSection (Cuadrícula combos + Carrito)"]
+        C6["Footer (Enlaces + Créditos)"]
+    end
+
+    URL --> Router
+    Router --> CartCtx
+    CartCtx --> PagesLayer
+    PagesLayer --> ComponentsLayer
+    C1 -. Consume contador .-> CartCtx
+    C5 -. Agrega ítems .-> CartCtx
+    P5 -. Actualiza y finaliza compra .-> CartCtx
+    P7 -. Muestra historial .-> CartCtx
+```
+
+---
+
+## 🧩 3. Descripción de las Capas
+
+### 3.1. Capa de Enrutamiento (`Routing Layer`)
+Implementada en `App.jsx` mediante **`react-router-dom`**:
+- **`BrowserRouter`**: Administra el historial de navegación del navegador sin recargar la página.
+- **`Routes` / `Route`**: Asocia cada ruta declarativa con su respectiva vista o página.
+- **`Navigate`**: Redirecciona rutas auxiliares (como `/inicio` o rutas no reconocidas) a la ruta raíz `/`.
+
+### 3.2. Capa de Estado Global (`State Management Layer`)
+Implementada en `src/context/CartContext.jsx`:
+- **`CartProvider`**: Provee el estado global a toda la jerarquía de componentes.
+- **Funcionalidades expuestas:**
+  - `cart`: Lista de productos agregados con cantidades y precios unitarios.
+  - `addToCart(item)`: Agrega o incrementa la cantidad de un ítem.
+  - `removeFromCart(id)`: Elimina un producto del carrito.
+  - `updateQuantity(id, delta)`: Incrementa o decrementa la cantidad.
+  - `placeOrder()`: Transforma el carrito actual en un pedido formal y lo envía al historial.
+  - `totalItems`, `subtotal`, `deliveryFee`, `total`: Valores calculados en tiempo real.
+  - `toast`: Notificación flotante automática de confirmación.
+
+### 3.3. Capa de Vistas y Páginas (`Pages Layer`)
+Ubicadas en `src/pages/`:
+1. **`InicioPage.jsx`**: Portada principal compuesta por el Hero, Categorías, Restaurantes destacados y Combos populares.
+2. **`ComidasPage.jsx`**: Menú completo con filtro interactivo por categoría (Hamburguesas, Pollo, Pizza, etc.), buscador integrado en URL, banner de oferta del día y modal de detalles.
+3. **`RestaurantesPage.jsx`**: Catálogo de restaurantes asociados (McDonald's, Frisby, Subway, KFC, Pizza Hut, Santa Rosa) con calificaciones y tiempos de entrega.
+4. **`RestauranteDetailPage.jsx`**: Vista detallada de cada restaurante con banner dinámico, información del local y menú de platos con botón directo para añadir al carrito.
+5. **`CarritoPage.jsx`**: Pantalla de revisión de pedido, ajuste dinámico de cantidades, cálculo de envío, resumen financiero y botón de checkout.
+6. **`PerfilPage.jsx`**: Ficha del estudiante con avatar, datos escolares, dirección de entrega y formulario editable.
+7. **`MisPedidosPage.jsx`**: Panel de seguimiento de pedidos en curso y órdenes finalizadas con etiquetas de estado (*Enviado*, *En preparación*, *Recibido*).
+
+### 3.4. Capa de Componentes Reutilizables (`Components Layer`)
+Ubicados en `src/` y `src/components/`:
+- **`Header.jsx`**: Barra superior persistente con el logo oficial NEXO, enlaces de navegación con `NavLink` (marcado activo automático) y badge con la cantidad de ítems en el carrito.
+- **`HeroSection.jsx`**: Banner de bienvenida con llamada a la acción, input de búsqueda que envía parámetros a `/comida` e imagen destacada clickeable.
+- **`CategoriesSection.jsx`**: Barra de botones de categoría con iconos emoji y enlace directo a la vista de comidas.
+- **`RestaurantsSection.jsx`**: Tarjetas de restaurantes destacados con redirección interactiva.
+- **`CombosSection.jsx`**: Galería de combos populares con botón `+` para añadir al carrito.
+- **`Footer.jsx`**: Pie de página con enlaces del sitio, información del convenio estudiantil y derechos de autor.
+
+### 3.5. Capa de Estilos (`Styling Layer`)
+- **`App.css`**: Hoja de estilos principal que contiene todas las reglas visuales migradas y mejoradas desde `html-referencia`, garantizando fidelidad visual con el diseño original y total adaptabilidad responsive (Mobile, Tablet y Desktop).
+- **`index.css`**: Reset general y configuración de la caja de renderizado `#root`.
+
+---
+
+## 🗺️ 4. Mapa de Rutas de la Aplicación
+
+| Ruta | Componente | Descripción |
+| :--- | :--- | :--- |
+| `/` | `InicioPage` | Página de bienvenida y secciones destacadas |
+| `/inicio` | `Navigate` | Redirección amigable a `/` |
+| `/comida` | `ComidasPage` | Catálogo de comidas, buscador y filtros |
+| `/restaurantes` | `RestaurantesPage` | Listado general de todos los restaurantes aliados |
+| `/restaurante/:id` | `RestauranteDetailPage` | Menú y detalles de un restaurante específico |
+| `/carrito` | `CarritoPage` | Carrito interactivo y proceso de compra |
+| `/perfil` | `PerfilPage` | Información del estudiante y convenios |
+| `/mis-pedidos` | `MisPedidosPage` | Historial de órdenes y seguimiento |
+| `*` | `Navigate` | Ruta comodín para redirigir a `/` |
+
+---
+
+## 📂 5. Estructura de Directorios
+
+```text
+Nexo_SRB-react/
+├── html-referencia/               # Archivos originales HTML y CSS de referencia
+├── Nexo_SRB/                      # Aplicación React construida con Vite
+│   ├── public/                    # Archivos estáticos y favicons
+│   ├── src/                       # Código fuente de React
+│   │   ├── assets/                # Recursos multimedia e imágenes
+│   │   ├── components/            # Componentes modulares reutilizables
+│   │   │   ├── CategoriesSection.jsx
+│   │   │   ├── CombosSection.jsx
+│   │   │   ├── Footer.jsx
+│   │   │   ├── Header.jsx
+│   │   │   ├── HeroSection.jsx
+│   │   │   ├── RestaurantsSection.jsx
+│   │   │   └── index.js
+│   │   ├── context/               # Estado global con React Context API
+│   │   │   └── CartContext.jsx
+│   │   ├── pages/                 # Vistas principales vinculadas a rutas
+│   │   │   ├── CarritoPage.jsx
+│   │   │   ├── ComidasPage.jsx
+│   │   │   ├── InicioPage.jsx
+│   │   │   ├── MisPedidosPage.jsx
+│   │   │   ├── PerfilPage.jsx
+│   │   │   ├── RestauranteDetailPage.jsx
+│   │   │   └── RestaurantesPage.jsx
+│   │   ├── App.css                # Estilos globales y diseño responsive
+│   │   ├── App.jsx                # Router y composición de la aplicación
+│   │   ├── index.css              # Reset CSS y estilos base
+│   │   └── main.jsx               # Punto de entrada de React en el DOM
+│   ├── index.html                 # Plantilla HTML de Vite
+│   ├── package.json               # Dependencias del proyecto
+│   └── vite.config.js             # Configuración de Vite
+├── src/                           # Copia sincronizada del código fuente
+└── README.md                      # Documentación y arquitectura del proyecto
+```
+
+---
+
+## 🚀 6. Instalación y Ejecución
+
+Para ejecutar el proyecto en tu entorno local:
+
+1. **Abrir la terminal e ingresar a la carpeta del proyecto:**
+   ```bash
+   cd Nexo_SRB
+   ```
+
+2. **Instalar dependencias:**
+   ```bash
+   npm install
+   ```
+
+3. **Iniciar el servidor de desarrollo:**
+   ```bash
+   npm run dev
+   ```
+   Abre [http://localhost:5173](http://localhost:5173) en tu navegador para ver la aplicación funcionando.
+
+4. **Compilar para producción:**
+   ```bash
+   npm run build
+   ```
+
+---
+
+## 👨‍💻 7. Créditos
+
+- **Desarrollador:** Santiago Rangel Bonilla
+- **Curso:** 11°A
+- **Proyecto:** Nexo SRB
